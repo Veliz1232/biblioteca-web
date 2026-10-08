@@ -47,4 +47,8 @@ export class Biblioteca {
   prestamos(): Observable<Prestamo[]> {
     return this.http.get<Prestamo[]>(`${GATEWAY}/v1/prestamos`);
   }
+
+  pedirPrestamo(libroId: number): Observable<Prestamo> {
+    return this.http.post<Prestamo>(`${GATEWAY}/v1/prestamos`, { libroId });
+  }
 }

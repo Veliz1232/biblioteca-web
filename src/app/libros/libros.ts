@@ -12,6 +12,7 @@ export class Libros {
   protected readonly libros = signal<Libro[]>([]);
   protected readonly estado = signal<number | null>(null);
   protected readonly cargando = signal(true);
+  protected readonly aviso = signal<string>('');
 
   constructor() {
     this.biblioteca.libros().subscribe({
@@ -26,6 +27,18 @@ export class Libros {
       error: (e: HttpErrorResponse) => {
         this.estado.set(e.status);
         this.cargando.set(false);
+      },
+    });
+  }
+
+  pedir(libroId: number): void {
+    this.aviso.set(`pidiendo préstamo del libro ${libroId}...`);
+    this.biblioteca.pedirPrestamo(libroId).subscribe({
+      next: () => {
+        this.aviso.set(`listo: préstamo del libro ${libroId} creado`);
+      },
+      error: (e: HttpErrorResponse) => {
+        this.aviso.set(`el gateway respondió ${e.status} al pedir el préstamo`);
       },
     });
   }

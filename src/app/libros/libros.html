@@ -5,7 +5,7 @@
 } @else if (estado() === 200) {
   <table>
     <thead>
-      <tr><th>Título</th><th>Autor</th><th>Año</th><th class="num">Copias</th></tr>
+      <tr><th>Título</th><th>Autor</th><th>Año</th><th class="num">Copias</th><th></th></tr>
     </thead>
     <tbody>
       @for (libro of libros(); track libro.id) {
@@ -14,10 +14,14 @@
           <td>{{ libro.autor }}</td>
           <td>{{ libro.anio }}</td>
           <td class="num">{{ libro.copias }}</td>
+          <td>
+            <button class="pedir" (click)="pedir(libro.id)">Pedir préstamo</button>
+          </td>
         </tr>
       }
     </tbody>
   </table>
+  <p class="apagado">{{ aviso() }}</p>
 } @else {
   <!--
     Este bloque es material del laboratorio, no un detalle de presentación.
